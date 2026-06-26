@@ -1,5 +1,5 @@
-__all__ = ["Storage", "Node", "Item"]
+__all__ = ["Root", "Node", "Item"]
 
-from .storage import Storage
+from .root import Root
 from .node import Node
 from .item import Item

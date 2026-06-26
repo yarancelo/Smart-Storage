@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from .node import Node
 
 class Item:
-    def __init__(self, name: str, description: str, quantity: int, picture: str, parent: "Node") -> None:
+    def __init__(self, name: str, description: str | None, quantity: int | None, picture: str | None, parent: "Node") -> None:
         self.name = name
         self.description = description
         self.quantity = quantity
@@ -17,3 +17,6 @@ class Item:
 
     def __repr__(self) -> str:
         return f"Item: {self.name}, {self.description}, {self.quantity}, {self.picture}, {self.created_at}, {self.updated_at}"
+
+    def serialize_path(self, indent: int, level: int) -> str:
+        return f"{indent * level * ' '}{self.name}\n"

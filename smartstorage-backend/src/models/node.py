@@ -1,13 +1,9 @@
 from datetime import datetime
 from .item import Item
-
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .storage import Storage
-
+from pathlib import Path
 
 class Node:
-    def __init__(self, name: str, description: str, picture: str, parent: Node | Storage) -> None:
+    def __init__(self, name: str, description: str | None, picture: str | None, parent: Node | None) -> None:
         self.name = name
         self.description = description
         self.picture = picture
@@ -19,5 +15,12 @@ class Node:
     def __repr__(self) -> str:
         return f"Storage: {self.name}, {self.description}, {self.picture}, {self.created_at}, {self.updated_at}"
 
-    def add_child(self, child: Node | Item) -> None:
-        self.children.append(child)
+    def create_storage_node(self, path: Path, node: Node | Item) -> str:
+        ...
+
+    def serialize_path(self, indent: int, level: int) -> str:
+        paths: list[str] = [f"{indent * level * ' '}{self.name}/\n"]
+        for child in self.children:
+            paths.append(child.serialize_path(indent, level + 1))
+
+        return "".join(paths)
