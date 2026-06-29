@@ -9,7 +9,7 @@ class BaseCreateNodeError(RuntimeError):
     def __str__(self) -> str:
         return f"{self.path}/{self.node.name}: {self.message}"
 
-class NodeIsAItemError(BaseCreateNodeError):
+class NodeIsAnItemError(BaseCreateNodeError):
     ...
 
 
@@ -36,3 +36,19 @@ class BaseDeletingNodeError(RuntimeError):
 
 class DeletingRootNodeError(BaseDeletingNodeError):
     ...
+
+class DeletingUnexistingNodeError(BaseDeletingNodeError):
+    ...
+
+class NodeIsNotEmptyError(BaseDeletingNodeError):
+    ...
+
+class NodeIsNotADirectoryError(BaseDeletingNodeError):
+    ...
+
+class EmptyPathError(RuntimeError):
+    def __init__(self, message: str):
+        self.message = message
+
+    def __str__(self) -> str:
+        return self.message

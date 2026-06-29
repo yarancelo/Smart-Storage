@@ -1,3 +1,23 @@
-__all__ = ["NodeIsAItemError", "NodeIsAStorageError", "NodeAlreadyExistsError", "NodeDoesNotExistError"]
+__all__ = [
+    "NodeIsAnItemError",
+    "NodeIsAStorageError",
+    "NodeAlreadyExistsError",
+    "NodeDoesNotExistError",
+    "DeletingRootNodeError",
+    "DeletingUnexistingNodeError",
+    "NodeIsNotEmptyError",
+    "EmptyPathError",
+    "NodeIsNotADirectoryError",
+]
 
-from .node import NodeIsAItemError, NodeIsAStorageError, NodeAlreadyExistsError, NodeDoesNotExistError
+from .node import (
+    NodeIsAnItemError,
+    NodeIsAStorageError,
+    NodeAlreadyExistsError,
+    NodeDoesNotExistError,
+    DeletingRootNodeError,
+    DeletingUnexistingNodeError,
+    NodeIsNotEmptyError,
+    EmptyPathError,
+    NodeIsNotADirectoryError,
+)

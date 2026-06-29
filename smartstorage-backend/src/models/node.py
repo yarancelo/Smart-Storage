@@ -1,6 +1,14 @@
 from datetime import datetime
 from enum import Enum
-from exc import NodeDoesNotExistError, NodeAlreadyExistsError
+from exc import (
+    NodeDoesNotExistError,
+    NodeAlreadyExistsError,
+    DeletingUnexistingNodeError,
+    NodeIsNotEmptyError,
+    EmptyPathError,
+    NodeIsNotADirectoryError
+)
+
 from uuid import UUID, uuid7
 
 
@@ -47,13 +55,39 @@ class Node:
 
             found.create_new_node(path[1:], new_node)
 
-    def delete_node(self, path: list[str]) -> None:
+    def delete_node(self, path: list[str], force: bool) -> None:
         if len(path) == 0:
+            raise EmptyPathError
 
+        found = next((node for node in self.children if node.name == path[0]), None)
+        if found is None:
+            raise DeletingUnexistingNodeError("/".join(path), "Node does not exist")
 
+        if len(path) == 1:
+            if found.type == NodeType.Item:
+                found.clear_parent()
+                self.children.remove(found)
+                return
+            else:
+                if found.children and not force:
+                    raise NodeIsNotEmptyError("/".join(path), "Node is not empty")
 
-    def set_parent(self, parent: Node):
+                found.clear_parent()
+                self.children.remove(found)
+                return
+        elif len(path) > 1:
+            if found.type == NodeType.Item:
+                raise NodeIsNotADirectoryError("/".join(path), "Node is not a directory")
+            else:
+                if found.children and not force:
+                    raise NodeIsNotEmptyError("/".join(path), "Node is not empty")
+                found.delete_node(path[1:], force)
+
+    def set_parent(self, parent: Node) -> None:
         self.parent = parent
+
+    def clear_parent(self) -> None:
+        self.parent = None
 
     def serialize_path(self, indent: int, level: int) -> str:
         paths: list[str] = [f"{indent * level * ' '}{self.name}/\n"]
