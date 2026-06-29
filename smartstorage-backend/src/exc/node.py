@@ -7,10 +7,11 @@ class BaseCreateNodeError(RuntimeError):
         self.message = message
 
     def __str__(self) -> str:
-        return f"{self.path}/{self.node.name}, {self.message}"
+        return f"{self.path}/{self.node.name}: {self.message}"
 
 class NodeIsAItemError(BaseCreateNodeError):
     ...
+
 
 class NodeIsAStorageError(BaseCreateNodeError):
     ...
@@ -23,3 +24,15 @@ class NodeAlreadyExistsError(BaseCreateNodeError):
 class NodeDoesNotExistError(BaseCreateNodeError):
     ...
 
+
+class BaseDeletingNodeError(RuntimeError):
+    def __init__(self, path: str, message: str):
+        self.path = path
+        self.message = message
+
+    def __str__(self) -> str:
+        return f"{self.path}: {self.message}"
+
+
+class DeletingRootNodeError(BaseDeletingNodeError):
+    ...
