@@ -3,4 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="uv (smartstorage-backend)" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="uv (smartstorage-backend)" project-jdk-type="Python SDK" />
 </project>
