@@ -1,7 +1,7 @@
 from datetime import datetime
-from pathlib import Path
 from enum import Enum
 from exc import NodeDoesNotExistError, NodeAlreadyExistsError
+from uuid import UUID, uuid7
 
 
 class NodeType(Enum):
@@ -23,6 +23,7 @@ class Node:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
         self.parent: Node | None = None
+        self.uuid: UUID = uuid7()
 
         if node_type == NodeType.Storage:
             self.children: list[Node] = []
