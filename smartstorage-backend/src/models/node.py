@@ -47,6 +47,10 @@ class Node:
 
             found.create_new_node(path[1:], new_node)
 
+    def delete_node(self, path: list[str]) -> None:
+        if len(path) == 0:
+
+
 
     def set_parent(self, parent: Node):
         self.parent = parent
