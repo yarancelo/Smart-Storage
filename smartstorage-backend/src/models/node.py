@@ -34,7 +34,7 @@ class Node:
         if len(path) == 0:
             found: Node | None = next((node for node in self.children if node.name == new_node.name), None)
             if found is not None:
-                raise NodeAlreadyExistsError
+                raise NodeAlreadyExistsError("/".join(path), new_node, "Node already exists in this directory")
 
             self.children.append(new_node)
             new_node.set_parent(self)
@@ -42,7 +42,7 @@ class Node:
         else:
             found: Node | None = next((node for node in self.children if node.name == path[0]), None)
             if found is None:
-                raise NodeDoesNotExistError
+                raise NodeDoesNotExistError("/".join(path), new_node, "Node does not exist")
 
             found.create_new_node(path[1:], new_node)
 
@@ -59,3 +59,12 @@ class Node:
             return "".join(paths)
         else:
             return f"{indent * level * ' '}{self.name}\n"
+
+    def get_path(self) -> str:
+        if self.parent is None:
+            return f"/{self.name}"
+
+        if self.parent is None:
+            return self.name
+
+        return f"{self.parent.get_path()}/{self.name}"
